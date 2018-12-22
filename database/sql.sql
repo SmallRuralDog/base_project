@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: 2018-11-27 18:09:25
--- 服务器版本： 10.3.8-MariaDB
--- PHP Version: 7.2.7
+-- 主机： localhost
+-- 生成日期： 2018-12-22 03:29:02
+-- 服务器版本： 5.7.24
+-- PHP 版本： 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `lipstick`
+-- 数据库： `laravel_base`
 --
 
 -- --------------------------------------------------------
@@ -32,7 +32,7 @@ CREATE TABLE `admin_config` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -45,8 +45,8 @@ CREATE TABLE `admin_config` (
 
 CREATE TABLE `admin_menu` (
   `id` int(10) UNSIGNED NOT NULL,
-  `parent_id` int(11) NOT NULL DEFAULT 0,
-  `order` int(11) NOT NULL DEFAULT 0,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `order` int(11) NOT NULL DEFAULT '0',
   `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `icon` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `uri` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE `admin_permissions` (
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `http_method` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `http_path` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `http_path` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -126,15 +126,15 @@ CREATE TABLE `admin_permissions` (
 --
 
 INSERT INTO `admin_permissions` (`id`, `name`, `slug`, `http_method`, `http_path`, `created_at`, `updated_at`) VALUES
-(1, 'All permission', '*', '', '*', NULL, NULL),
-(2, 'Dashboard', 'dashboard', 'GET', '/', NULL, NULL),
-(3, 'Login', 'auth.login', '', '/auth/login\r\n/auth/logout', NULL, NULL),
-(4, 'User setting', 'auth.setting', 'GET,PUT', '/auth/setting', NULL, NULL),
-(5, 'Auth management', 'auth.management', '', '/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs', NULL, NULL),
-(6, 'Logs', 'ext.log-viewer', NULL, '/logs*', '2018-11-27 09:17:15', '2018-11-27 09:17:15'),
-(7, 'Redis Manager', 'ext.redis-manager', NULL, '/redis*', '2018-11-27 09:23:28', '2018-11-27 09:23:28'),
-(8, 'Media manager', 'ext.media-manager', NULL, '/media*', '2018-11-27 09:25:54', '2018-11-27 09:25:54'),
-(9, 'Admin Config', 'ext.config', NULL, '/config*', '2018-11-27 09:29:16', '2018-11-27 09:29:16');
+(1, '所有权限', '*', '', '*', NULL, NULL),
+(2, '仪表盘', 'dashboard', 'GET', '/', NULL, NULL),
+(3, '登录', 'auth.login', '', '/auth/login\r\n/auth/logout', NULL, NULL),
+(4, '用户设置', 'auth.setting', 'GET,PUT', '/auth/setting', NULL, NULL),
+(5, '后台权限设置', 'auth.management', '', '/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs', NULL, NULL),
+(6, '系统日志', 'ext.log-viewer', NULL, '/logs*', '2018-11-27 09:17:15', '2018-11-27 09:17:15'),
+(7, 'Redis管理', 'ext.redis-manager', NULL, '/redis*', '2018-11-27 09:23:28', '2018-11-27 09:23:28'),
+(8, 'Media管理', 'ext.media-manager', NULL, '/media*', '2018-11-27 09:25:54', '2018-11-27 09:25:54'),
+(9, '系统配置', 'ext.config', NULL, '/config*', '2018-11-27 09:29:16', '2018-11-27 09:29:16');
 
 -- --------------------------------------------------------
 
@@ -155,7 +155,7 @@ CREATE TABLE `admin_roles` (
 --
 
 INSERT INTO `admin_roles` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Administrator', 'administrator', '2018-11-27 09:11:55', '2018-11-27 09:11:55');
+(1, '管理员', 'administrator', '2018-11-27 09:11:55', '2018-12-22 01:29:48');
 
 -- --------------------------------------------------------
 
@@ -240,7 +240,7 @@ CREATE TABLE `admin_users` (
 --
 
 INSERT INTO `admin_users` (`id`, `username`, `password`, `name`, `avatar`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '$2y$10$moBd82L/1/hb.FXUTz6hmO3q5I0YQnCi5V2GbLur48rR779GLkb4S', 'Administrator', NULL, NULL, '2018-11-27 09:11:55', '2018-11-27 09:11:55');
+(1, 'admin', '$2y$10$moBd82L/1/hb.FXUTz6hmO3q5I0YQnCi5V2GbLur48rR779GLkb4S', '管理员', NULL, NULL, '2018-11-27 09:11:55', '2018-12-22 01:33:07');
 
 -- --------------------------------------------------------
 
@@ -267,21 +267,6 @@ CREATE TABLE `migrations` (
   `batch` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- 转存表中的数据 `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2016_01_04_173148_create_admin_tables', 2),
-(4, '2017_07_17_040159_create_config_table', 3),
-(5, '2016_06_01_000001_create_oauth_auth_codes_table', 4),
-(6, '2016_06_01_000002_create_oauth_access_tokens_table', 4),
-(7, '2016_06_01_000003_create_oauth_refresh_tokens_table', 4),
-(8, '2016_06_01_000004_create_oauth_clients_table', 4),
-(9, '2016_06_01_000005_create_oauth_personal_access_clients_table', 4);
-
 -- --------------------------------------------------------
 
 --
@@ -293,7 +278,7 @@ CREATE TABLE `oauth_access_tokens` (
   `user_id` int(11) DEFAULT NULL,
   `client_id` int(11) NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -310,7 +295,7 @@ CREATE TABLE `oauth_auth_codes` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -334,14 +319,6 @@ CREATE TABLE `oauth_clients` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- 转存表中的数据 `oauth_clients`
---
-
-INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Lipstick Personal Access Client', 'cWPdmc32qDy1kXVW3IwQ1LtdL4j6GWB6GE7uCXOw', 'http://localhost', 1, 0, 0, '2018-11-27 09:56:30', '2018-11-27 09:56:30'),
-(2, NULL, 'Lipstick Password Grant Client', 'MNPQLoTua2OMtGUxeBVsjSKRYYm6U2lYboJjgDA1', 'http://localhost', 0, 1, 0, '2018-11-27 09:56:30', '2018-11-27 09:56:30');
-
 -- --------------------------------------------------------
 
 --
@@ -354,13 +331,6 @@ CREATE TABLE `oauth_personal_access_clients` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 转存表中的数据 `oauth_personal_access_clients`
---
-
-INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '2018-11-27 09:56:30', '2018-11-27 09:56:30');
 
 -- --------------------------------------------------------
 
@@ -401,130 +371,146 @@ CREATE TABLE `users` (
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `p_id` int(11) NOT NULL DEFAULT '0' COMMENT '上级ID',
+  `p_2_id` int(11) NOT NULL DEFAULT '0' COMMENT '二级ID',
+  `p_3_id` int(11) NOT NULL DEFAULT '0' COMMENT '三级ID',
+  `f_1_count` int(11) NOT NULL DEFAULT '0' COMMENT '一级下线统计',
+  `f_2_count` int(11) NOT NULL DEFAULT '0' COMMENT '二级下线统计',
+  `f_3_count` int(11) NOT NULL DEFAULT '0' COMMENT '三级下线统计',
+  `app_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'app_id',
+  `pay_app_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'pay_app_id',
+  `open_id` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'openID',
+  `pay_open_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '支付 openID',
+  `is_auth` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否认证',
+  `avatar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
+  `qd` int(11) NOT NULL DEFAULT '0' COMMENT '渠道标示',
+  `money` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '余额',
+  `money_count` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '累计余额'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Indexes for dumped tables
+-- 转储表的索引
 --
 
 --
--- Indexes for table `admin_config`
+-- 表的索引 `admin_config`
 --
 ALTER TABLE `admin_config`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `admin_config_name_unique` (`name`);
 
 --
--- Indexes for table `admin_menu`
+-- 表的索引 `admin_menu`
 --
 ALTER TABLE `admin_menu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `admin_operation_log`
+-- 表的索引 `admin_operation_log`
 --
 ALTER TABLE `admin_operation_log`
   ADD PRIMARY KEY (`id`),
   ADD KEY `admin_operation_log_user_id_index` (`user_id`);
 
 --
--- Indexes for table `admin_permissions`
+-- 表的索引 `admin_permissions`
 --
 ALTER TABLE `admin_permissions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `admin_permissions_name_unique` (`name`);
 
 --
--- Indexes for table `admin_roles`
+-- 表的索引 `admin_roles`
 --
 ALTER TABLE `admin_roles`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `admin_roles_name_unique` (`name`);
 
 --
--- Indexes for table `admin_role_menu`
+-- 表的索引 `admin_role_menu`
 --
 ALTER TABLE `admin_role_menu`
   ADD KEY `admin_role_menu_role_id_menu_id_index` (`role_id`,`menu_id`);
 
 --
--- Indexes for table `admin_role_permissions`
+-- 表的索引 `admin_role_permissions`
 --
 ALTER TABLE `admin_role_permissions`
   ADD KEY `admin_role_permissions_role_id_permission_id_index` (`role_id`,`permission_id`);
 
 --
--- Indexes for table `admin_role_users`
+-- 表的索引 `admin_role_users`
 --
 ALTER TABLE `admin_role_users`
   ADD KEY `admin_role_users_role_id_user_id_index` (`role_id`,`user_id`);
 
 --
--- Indexes for table `admin_users`
+-- 表的索引 `admin_users`
 --
 ALTER TABLE `admin_users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `admin_users_username_unique` (`username`);
 
 --
--- Indexes for table `admin_user_permissions`
+-- 表的索引 `admin_user_permissions`
 --
 ALTER TABLE `admin_user_permissions`
   ADD KEY `admin_user_permissions_user_id_permission_id_index` (`user_id`,`permission_id`);
 
 --
--- Indexes for table `migrations`
+-- 表的索引 `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `oauth_access_tokens`
+-- 表的索引 `oauth_access_tokens`
 --
 ALTER TABLE `oauth_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
 
 --
--- Indexes for table `oauth_auth_codes`
+-- 表的索引 `oauth_auth_codes`
 --
 ALTER TABLE `oauth_auth_codes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `oauth_clients`
+-- 表的索引 `oauth_clients`
 --
 ALTER TABLE `oauth_clients`
   ADD PRIMARY KEY (`id`),
   ADD KEY `oauth_clients_user_id_index` (`user_id`);
 
 --
--- Indexes for table `oauth_personal_access_clients`
+-- 表的索引 `oauth_personal_access_clients`
 --
 ALTER TABLE `oauth_personal_access_clients`
   ADD PRIMARY KEY (`id`),
   ADD KEY `oauth_personal_access_clients_client_id_index` (`client_id`);
 
 --
--- Indexes for table `oauth_refresh_tokens`
+-- 表的索引 `oauth_refresh_tokens`
 --
 ALTER TABLE `oauth_refresh_tokens`
   ADD PRIMARY KEY (`id`),
   ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
 
 --
--- Indexes for table `password_resets`
+-- 表的索引 `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indexes for table `users`
+-- 表的索引 `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `users_open_id_unique` (`open_id`);
 
 --
 -- 在导出的表使用AUTO_INCREMENT
@@ -570,19 +556,19 @@ ALTER TABLE `admin_users`
 -- 使用表AUTO_INCREMENT `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `oauth_clients`
 --
 ALTER TABLE `oauth_clients`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `oauth_personal_access_clients`
 --
 ALTER TABLE `oauth_personal_access_clients`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `users`
